@@ -16,6 +16,9 @@ dependencies = [
     "python-dotenv",
     "requests",
     "types-requests",
+    "langchain",
+    "langchain_community",
+    "openai",
     # dev tools
     "mypy",
     "better_exceptions",
