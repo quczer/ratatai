@@ -33,38 +33,22 @@ class MockTextToSpeech(TextToSpeech):
 class ElevenLabsSpeech(TextToSpeech):
     """Implementation of text-to-speech using ElevenLabs API"""
 
-    def __init__(self, api_key: str, voice_id: str = "21m00Tcm4TlvDq8ikWAM"):
-        """
-        Initialize ElevenLabs text-to-speech
+    _TTS_URL_FMT = "https://api.elevenlabs.io/v1/text-to-speech/{voice_id}/stream"
 
-        Args:
-            api_key: ElevenLabs API key. If None, will try to get from ELEVENLABS_API_KEY env var
-            voice_id: ElevenLabs voice ID to use (default is "rachel" voice)
-        """
-        self.api_key = api_key
-        if not self.api_key:
-            raise ValueError(
-                "API key must be provided or set in ELEVENLABS_API_KEY environment variable"
-            )
-        self.voice_id = voice_id
+    def __init__(self, api_key: str, voice_id: str = "21m00Tcm4TlvDq8ikWAM"):
+        self._api_key = api_key
+        self._voice_id = voice_id
 
     def __call__(self, text: str) -> Speech:
         """
-        Convert text to speech using ElevenLabs API
-
-        Args:
-            text: Text to convert to speech
-
-        Returns:
-            Speech object containing the audio data
-
-        Raises:
+        Raises
+        ------
             requests.exceptions.RequestException: If API call fails
         """
-        url = f"https://api.elevenlabs.io/v1/text-to-speech/{self.voice_id}/stream"
+        url = ElevenLabsSpeech._TTS_URL_FMT.format(voice_id=self._voice_id)
         headers = {
             "Accept": "audio/mpeg",
-            "xi-api-key": self.api_key,
+            "xi-api-key": self._api_key,
             "Content-Type": "application/json",
         }
         payload = {
