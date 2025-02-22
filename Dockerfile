@@ -41,3 +41,8 @@ RUN sudo adduser ${USER} audio && sudo adduser ${USER} video
 WORKDIR ${HOME}/pydeps
 COPY --chown=${USER}:${USER} /backend backend
 RUN --mount=type=cache,target=${PIP_CACHE},uid=${UID} pip install -e backend/
+
+RUN echo "PS1='\[\033[1;38;5;214m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[0m\]\$ '" >> ~/.bashrc
+RUN echo "export BETTER_EXCEPTIONS=1" >> ~/.bashrc
+
+WORKDIR ${REPO_PATH}
