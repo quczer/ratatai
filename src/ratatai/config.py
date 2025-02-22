@@ -3,9 +3,11 @@ from pathlib import Path
 
 class Files:
     REPO_DIR = Path(__file__).parent.parent.parent
-    RECIPES_DIR = REPO_DIR / "db" / "recipes"
+    FILES_DIR = REPO_DIR / "files"
+    RECIPES_DIR = FILES_DIR / "recipes"
 
     DEFAULT_RECIPE = RECIPES_DIR / "example.txt"
+    MOCK_RESPONSE_PATH = FILES_DIR / "id_eat_you_bby.wav"
 
 
 class Whisper:
@@ -21,4 +23,4 @@ class Whisper:
     ```
     """
 
-    MODEL = "small.en"
+    MODEL_SIZE = "small.en"

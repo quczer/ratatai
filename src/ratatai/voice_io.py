@@ -22,7 +22,7 @@ class VoiceIO(ABC):
 
 
 class VoiceIOImpl(VoiceIO):
-    def __init__(self, pause_thold: float = 0.8) -> None:
+    def __init__(self, pause_thold: float) -> None:
         self._recognizer = speech_recognition.Recognizer()
         self._recognizer.pause_threshold = pause_thold
 
