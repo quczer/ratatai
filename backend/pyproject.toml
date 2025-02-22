@@ -5,10 +5,10 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "ratatai"
 version = "0.1.0"
-# Dependencies should be installed by the user of the library.
 dependencies = [
     "mypy",
-    "better_exceptions"
+    "better_exceptions",
+    "pre-commit"
 ]
 
 [tool.setuptools.packages.find]
