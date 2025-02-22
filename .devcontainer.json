@@ -21,7 +21,7 @@
         "--ipc=host"
     ],
     "initializeCommand": [],
-    "postCreateCommand": "pip install -e /mnt/ratatai/backend/",
+    "postCreateCommand": "pip install -e /mnt/ratatai/",
     "customizations": {
         "vscode": {
             "extensions": [

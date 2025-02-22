@@ -7,6 +7,5 @@
 # (this comment exists to highlight it, as a single star is not very visible)
 *
 
-# `backend`
-!/backend/src/ratatai/__init__.py
-!/backend/pyproject.toml
+!/src/ratatai/__init__.py
+!/pyproject.toml

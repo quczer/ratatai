@@ -39,8 +39,9 @@ RUN sudo apt-get install locales \
 RUN sudo adduser ${USER} audio && sudo adduser ${USER} video
 
 WORKDIR ${HOME}/pydeps
-COPY --chown=${USER}:${USER} /backend backend
-RUN --mount=type=cache,target=${PIP_CACHE},uid=${UID} pip install -e backend/
+COPY --chown=${USER}:${USER} /src src
+COPY --chown=${USER}:${USER} /pyproject.toml pyproject.toml
+RUN --mount=type=cache,target=${PIP_CACHE},uid=${UID} pip install -e .
 
 RUN pip uninstall -y ratatai
 
@@ -49,7 +50,7 @@ RUN echo "export BETTER_EXCEPTIONS=1" >> ~/.bashrc
 
 RUN echo "#!/bin/bash" > entrypoint.sh \
     && echo "set -e" >> entrypoint.sh \
-    && echo "pip install -e backend/" >> entrypoint.sh \
+    && echo "pip install -e ." >> entrypoint.sh \
     && echo 'exec "$@"' >> entrypoint.sh \
     && chmod +x entrypoint.sh \
     && sudo mv entrypoint.sh /entrypoint.sh
