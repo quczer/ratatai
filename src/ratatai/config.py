@@ -7,7 +7,7 @@ class Files:
     RECIPES_DIR = FILES_DIR / "recipes"
 
     DEFAULT_RECIPE = RECIPES_DIR / "example.txt"
-    MOCK_RESPONSE = FILES_DIR / "id_eat_you_bby.wav"
+    MOCK_RESPONSE_PATH = FILES_DIR / "id_eat_you_bby.wav"
 
 
 class Whisper:
@@ -23,4 +23,4 @@ class Whisper:
     ```
     """
 
-    MODEL = "small.en"
+    MODEL_SIZE = "small.en"

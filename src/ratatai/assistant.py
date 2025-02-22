@@ -25,7 +25,7 @@ class CookingAssistant:
 
     def _repl_round(self) -> None:
         logger.info("Listening...")
-        user_speech = self._voice_io.listen()
+        user_speech = self._voice_io.listen_single()
         logger.debug(f"Got user speech of {len(user_speech)} bytes.")
         user_text = self._speech2text(user_speech)
         logger.info(f"Got user text: {user_text}")
