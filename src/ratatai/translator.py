@@ -41,7 +41,6 @@ class WhisperSpeechToText(SpeechToText):
         with tempfile.NamedTemporaryFile(suffix=".wav") as tmp_file:
             tmp_file.write(speech)
             tmp_file.flush()
-            speech = tmp_file.name
 
             # TODO: many config params here
             result = self._whisper.transcribe(
