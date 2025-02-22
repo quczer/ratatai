@@ -1,4 +1,4 @@
-"""Define type aliases and type hints for Ratatai."""
+"""Define type aliases and type hints for RatatAI."""
 
 from typing import NewType
 
