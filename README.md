@@ -21,12 +21,4 @@ To set up a virtual environment for this project, follow these steps:
 
 3. **Install dependencies**:
    ```bash
-   pip install .
-   ```
-
-   Alternatively, if you want to install the dependencies listed in `pyproject.toml` without installing the package itself, you can use:
-   ```bash
-   pip install -e .[dev]
-   ```
-
-Make sure to deactivate the virtual environment when you're done working by running `deactivate`.
+   pip install -e .
