@@ -10,3 +10,8 @@ class InputProcessor(ABC):
     @abstractmethod
     def generate_response(self, text_prompt: str) -> str:
         pass
+
+
+class MockInputProcessor(InputProcessor):
+    def generate_response(self, text_prompt: str) -> str:
+        return f"Mock response to {text_prompt}"

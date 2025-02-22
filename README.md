@@ -29,6 +29,6 @@ To set up a virtual environment for this project, follow these steps:
     ```
 5. **Run the application**:
     ```bash
-    docker-user@quczer-seagle:/mnt/ratatai$ cook db/recipes/example.txt
+    docker-user@quczer-seagle:/mnt/ratatai$ cook files/recipes/example.txt
     recipe='Zajebisty przepis na naleśniki :)))'
     ```

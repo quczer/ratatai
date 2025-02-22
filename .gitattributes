@@ -1,0 +1,2 @@
+# binary files
+*.wav filter=lfs diff=lfs merge=lfs -text
