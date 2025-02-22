@@ -1,0 +1,7 @@
+pyproject.toml
+src/ratatai/__init__.py
+src/ratatai.egg-info/PKG-INFO
+src/ratatai.egg-info/SOURCES.txt
+src/ratatai.egg-info/dependency_links.txt
+src/ratatai.egg-info/requires.txt
+src/ratatai.egg-info/top_level.txt

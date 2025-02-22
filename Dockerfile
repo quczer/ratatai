@@ -42,7 +42,18 @@ WORKDIR ${HOME}/pydeps
 COPY --chown=${USER}:${USER} /backend backend
 RUN --mount=type=cache,target=${PIP_CACHE},uid=${UID} pip install -e backend/
 
+RUN pip uninstall -y ratatai
+
 RUN echo "PS1='\[\033[1;38;5;214m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[0m\]\$ '" >> ~/.bashrc
 RUN echo "export BETTER_EXCEPTIONS=1" >> ~/.bashrc
 
+RUN echo "#!/bin/bash" > entrypoint.sh \
+    && echo "set -e" >> entrypoint.sh \
+    && echo "pip install -e backend/" >> entrypoint.sh \
+    && echo 'exec "$@"' >> entrypoint.sh \
+    && chmod +x entrypoint.sh \
+    && sudo mv entrypoint.sh /entrypoint.sh
+
 WORKDIR ${REPO_PATH}
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["bash"]
