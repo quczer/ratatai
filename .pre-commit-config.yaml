@@ -38,7 +38,7 @@ repos:
             "--builtin",
             "clear,rare,code,names",
             "--ignore-words-list",
-            "",
+            "snd",
           ]
         exclude: '.*\.ipynb$'
   - repo: https://github.com/shellcheck-py/shellcheck-py

@@ -37,6 +37,9 @@ RUN sudo apt-get install locales \
     && export LANG=en_US.UTF-8 && echo 'export LANG=en_US.UTF-8' >> ~/.bashrc
 
 RUN sudo adduser ${USER} audio && sudo adduser ${USER} video
+ENV PATH="${HOME}/.local/bin:${PATH}"
+
+RUN sudo apt update && sudo apt install -y espeak-ng alsa-utils alsa-oss alsa-base portaudio19-dev
 
 WORKDIR ${HOME}/pydeps
 COPY --chown=${USER}:${USER} /src src

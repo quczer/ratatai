@@ -13,7 +13,10 @@ docker run \
     --privileged --rm -it \
     -v ".:/mnt/ratatai" \
     -v "/tmp/tmux-1000":"/mnt/tmp-tmux-1000/" \
+    -v "$HOME/.cache/":"/home/docker-user/.cache/" \
     --network=host \
+    --gpus all \
+    --device /dev/snd \
     $ADDITIONAL_ARGS \
     ratatai:latest \
     bash
