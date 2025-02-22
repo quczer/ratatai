@@ -30,7 +30,7 @@ class MockTextToSpeech(TextToSpeech):
         return self._speech
 
 
-class ElevenLabsSpeech(TextToSpeech):
+class ElevenLabsTTS(TextToSpeech):
     """Implementation of text-to-speech using ElevenLabs API"""
 
     _TTS_URL_FMT = "https://api.elevenlabs.io/v1/text-to-speech/{voice_id}/stream"
@@ -45,7 +45,7 @@ class ElevenLabsSpeech(TextToSpeech):
         ------
             requests.exceptions.RequestException: If API call fails
         """
-        url = ElevenLabsSpeech._TTS_URL_FMT.format(voice_id=self._voice_id)
+        url = ElevenLabsTTS._TTS_URL_FMT.format(voice_id=self._voice_id)
         headers = {
             "Accept": "audio/mpeg",
             "xi-api-key": self._api_key,
