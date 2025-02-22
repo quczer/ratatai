@@ -26,7 +26,7 @@ class MockInputProcessor(InputProcessor):
         return f"Mock response to {text_prompt}"
 
 
-class RecipeInputProcessor(InputProcessor):
+class OpenAiInputProcessor(InputProcessor):
     def __init__(self, recipe_steps: list[str], openai_api_key: str):
         """
         Initializes the RecipeInputProcessor with the given recipe steps. It creates a LangChain agent
@@ -37,7 +37,7 @@ class RecipeInputProcessor(InputProcessor):
 
         # Track the current step (0-indexed) and the set of completed steps (steps are considered as 1-indexed).
         self.current_step = 0
-        self.completed_steps = set()
+        self.completed_steps = set[int]()
         self.finished = False
 
         # Create conversation memory.
@@ -50,7 +50,7 @@ class RecipeInputProcessor(InputProcessor):
             self.completed_steps.add(step_number)
             return f"Step {step_number} marked as completed."
 
-        def __finish_cooking() -> str:
+        def __finish_cooking(_: int) -> str:
             self.finished = True
             return "Congratulations! You've completed the recipe. Enjoy your meal!"
 
@@ -91,7 +91,7 @@ class RecipeInputProcessor(InputProcessor):
             agent=AgentType.CONVERSATIONAL_REACT_DESCRIPTION,
             tools=[mark_step_tool, finish_cooking_tool],
             llm=self.llm,
-            verbose=True,
+            verbose=False,
             memory=self.memory,
         )
 

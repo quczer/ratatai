@@ -13,14 +13,12 @@ from ratatai.create import create_cooking_assistant
     default=config.Files.DEFAULT_RECIPE,
 )
 def run(recipe_path: Path) -> None:
-    logger.debug("Creating cooking assistant...")
-    assistant = create_cooking_assistant()
-    logger.debug("Cooking assistant created!")
-
+    logger.info("Reading recipe...")
     with open(recipe_path) as file:
-        recipe = file.read().strip()
+        recipe_steps = file.readlines()
 
-    click.echo(f"Using recipe from {recipe_path}:")
-    click.echo(recipe)
+    logger.debug("Creating cooking assistant...")
+    assistant = create_cooking_assistant(recipe_steps=recipe_steps)
+    logger.debug("Cooking assistant created!")
 
     assistant.run()
