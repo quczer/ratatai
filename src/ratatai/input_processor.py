@@ -46,24 +46,24 @@ class RecipeInputProcessor(InputProcessor):
         )
 
         # Define tool functions that update the processor's state.
-        def mark_step_completed(step_number: int) -> str:
+        def __mark_step_completed(step_number: int) -> str:
             self.completed_steps.add(step_number)
             return f"Step {step_number} marked as completed."
 
-        def finish_cooking() -> str:
+        def __finish_cooking() -> str:
             self.finished = True
             return "Congratulations! You've completed the recipe. Enjoy your meal!"
 
         # Define tools for the agent.
         mark_step_tool = Tool(
             name="MarkStepCompleted",
-            func=mark_step_completed,
+            func=__mark_step_completed,
             description="Marks a cooking step as completed. Input should be the step number.",
         )
 
         finish_cooking_tool = Tool(
             name="FinishCooking",
-            func=finish_cooking,
+            func=__finish_cooking,
             description="Marks the entire cooking process as completed.",
         )
 
