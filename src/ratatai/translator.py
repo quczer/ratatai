@@ -6,7 +6,7 @@ import torch
 import whisper
 
 from ratatai import logger
-from ratatai.typing import Speech
+from ratatai.types import Speech
 
 
 class TextToSpeech(ABC):
