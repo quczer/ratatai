@@ -1,11 +1,11 @@
 from abc import ABC, abstractmethod
-import os
+
+from langchain.agents import AgentType, initialize_agent
 
 # Import required LangChain components.
 from langchain.chat_models import ChatOpenAI
 from langchain.memory import ConversationBufferMemory
 from langchain.schema import SystemMessage
-from langchain.agents import initialize_agent, AgentType
 from langchain.tools import Tool
 
 
@@ -27,23 +27,23 @@ class MockInputProcessor(InputProcessor):
 
 
 class RecipeInputProcessor(InputProcessor):
-    def __init__(self, recipe_steps: list[str], openai_api_key: str = None):
+    def __init__(self, recipe_steps: list[str], openai_api_key: str):
         """
-        Initializes the RecipeInputProcessor with the given recipe steps. It creates a LangChain agent 
+        Initializes the RecipeInputProcessor with the given recipe steps. It creates a LangChain agent
         configured with tools to mark individual steps as complete or finish the recipe.
         """
-        if openai_api_key is None:
-            openai_api_key = os.getenv("OPENAI_API_KEY")
         self.recipe_steps = recipe_steps
         self.openai_api_key = openai_api_key
 
         # Track the current step (0-indexed) and the set of completed steps (steps are considered as 1-indexed).
-        self.current_step = 0  
+        self.current_step = 0
         self.completed_steps = set()
         self.finished = False
 
         # Create conversation memory.
-        self.memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
+        self.memory = ConversationBufferMemory(
+            memory_key="chat_history", return_messages=True
+        )
 
         # Define tool functions that update the processor's state.
         def mark_step_completed(step_number: int) -> str:
@@ -58,22 +58,22 @@ class RecipeInputProcessor(InputProcessor):
         mark_step_tool = Tool(
             name="MarkStepCompleted",
             func=mark_step_completed,
-            description="Marks a cooking step as completed. Input should be the step number."
+            description="Marks a cooking step as completed. Input should be the step number.",
         )
 
         finish_cooking_tool = Tool(
             name="FinishCooking",
             func=finish_cooking,
-            description="Marks the entire cooking process as completed."
+            description="Marks the entire cooking process as completed.",
         )
 
         # Build an initial system prompt that includes the recipe steps and the (empty) completed steps.
         system_prompt = f"""
         You are a helpful cooking assistant guiding users through a recipe step by step.
-        
+
         Recipe Steps:
         {self.recipe_steps}
-        
+
         Completed Steps:
         {sorted(list(self.completed_steps))}
         """
@@ -83,7 +83,7 @@ class RecipeInputProcessor(InputProcessor):
         self.llm = ChatOpenAI(
             model_name="gpt-4o-mini",
             temperature=0.3,
-            openai_api_key=self.openai_api_key
+            openai_api_key=self.openai_api_key,
         )
 
         # Initialize the agent with the two tools.
@@ -92,14 +92,14 @@ class RecipeInputProcessor(InputProcessor):
             tools=[mark_step_tool, finish_cooking_tool],
             llm=self.llm,
             verbose=True,
-            memory=self.memory
+            memory=self.memory,
         )
 
     def generate_response(self, text_prompt: str) -> str:
         """
-        Processes the incoming text prompt. Before handing off the user's message, the assistant injects a system 
-        message with the current recipe step instruction (if any). After the agent generates a response, the method: 
-         - checks if the current step got marked as completed (tools automatically update the processor state), and 
+        Processes the incoming text prompt. Before handing off the user's message, the assistant injects a system
+        message with the current recipe step instruction (if any). After the agent generates a response, the method:
+         - checks if the current step got marked as completed (tools automatically update the processor state), and
          - if so, advances to the next step.
         """
         # If the recipe is finished, simply return a closing message.
@@ -113,7 +113,9 @@ class RecipeInputProcessor(InputProcessor):
         else:
             # If no steps remain, mark finished automatically.
             self.finished = True
-            self.memory.chat_memory.add_message(SystemMessage(content="All steps have been completed."))
+            self.memory.chat_memory.add_message(
+                SystemMessage(content="All steps have been completed.")
+            )
             return "Congratulations! You've completed the recipe. Enjoy your meal!"
 
         # Pass the user's prompt to the agent.
@@ -121,15 +123,23 @@ class RecipeInputProcessor(InputProcessor):
 
         # Check if the agent (or user via the tool invocation) has marked the current step (which is 1-indexed)
         # as completed. For robustness, update the current step as long as the marking aligns.
-        while (self.current_step + 1) in self.completed_steps and self.current_step < len(self.recipe_steps):
+        while (
+            self.current_step + 1
+        ) in self.completed_steps and self.current_step < len(self.recipe_steps):
             self.current_step += 1
             if self.current_step < len(self.recipe_steps):
                 update_message = f"Moving on to the next step: {self.recipe_steps[self.current_step]}"
-                self.memory.chat_memory.add_message(SystemMessage(content=update_message))
+                self.memory.chat_memory.add_message(
+                    SystemMessage(content=update_message)
+                )
 
         return response
 
+
 if __name__ == "__main__":
-    recipe_steps = ["Add eggs and milk.", "Stir well.", "Pour into the dish and bake for 25 minutes."]
-    input_processor = RecipeInputProcessor(recipe_steps)
-    print(input_processor.generate_response("I've added the eggs and milk."))
+    recipe_steps = [
+        "Add eggs and milk.",
+        "Stir well.",
+        "Pour into the dish and bake for 25 minutes.",
+    ]
+    input_processor = RecipeInputProcessor(recipe_steps, openai_api_key=...)
