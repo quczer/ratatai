@@ -2,7 +2,7 @@ from pathlib import Path
 
 import click
 
-from ratatai import config
+from ratatai import config, logger
 from ratatai.create import create_cooking_assistant
 
 
@@ -13,7 +13,9 @@ from ratatai.create import create_cooking_assistant
     default=config.Files.DEFAULT_RECIPE,
 )
 def run(recipe_path: Path) -> None:
+    logger.debug("Creating cooking assistant...")
     assistant = create_cooking_assistant()
+    logger.debug("Cooking assistant created!")
 
     with open(recipe_path) as file:
         recipe = file.read().strip()

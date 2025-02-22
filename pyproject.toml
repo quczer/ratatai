@@ -46,10 +46,13 @@ warn_unreachable = false
 
 
 # Ignore missing imports for third party libraries where stubs are not available.
-# [[tool.mypy.overrides]]
-# module = [
-# ]
-# ignore_missing_imports = true
+[[tool.mypy.overrides]]
+module = [
+    "sounddevice",
+    "soundfile",
+    "speech_recognition",
+]
+ignore_missing_imports = true
 
 # See the following link for more information on how to use Ruff:
 # https://docs.astral.sh/ruff/linter/#error-suppression

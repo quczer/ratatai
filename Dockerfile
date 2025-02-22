@@ -46,6 +46,9 @@ COPY --chown=${USER}:${USER} /src src
 COPY --chown=${USER}:${USER} /pyproject.toml pyproject.toml
 RUN --mount=type=cache,target=${PIP_CACHE},uid=${UID} pip install -e .
 
+# Add `py.typed` markers.
+RUN touch /home/docker-user/.local/lib/python3.10/site-packages/whisper/py.typed
+
 RUN pip uninstall -y ratatai
 
 RUN echo "PS1='\[\033[1;38;5;214m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[0m\]\$ '" >> ~/.bashrc
