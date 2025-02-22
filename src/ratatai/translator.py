@@ -1,4 +1,3 @@
-import os
 import tempfile
 from abc import ABC, abstractmethod
 from pathlib import Path
@@ -34,9 +33,7 @@ class MockTextToSpeech(TextToSpeech):
 class ElevenLabsSpeech(TextToSpeech):
     """Implementation of text-to-speech using ElevenLabs API"""
 
-    def __init__(
-        self, api_key: str | None = None, voice_id: str = "21m00Tcm4TlvDq8ikWAM"
-    ):
+    def __init__(self, api_key: str, voice_id: str = "21m00Tcm4TlvDq8ikWAM"):
         """
         Initialize ElevenLabs text-to-speech
 
@@ -44,7 +41,7 @@ class ElevenLabsSpeech(TextToSpeech):
             api_key: ElevenLabs API key. If None, will try to get from ELEVENLABS_API_KEY env var
             voice_id: ElevenLabs voice ID to use (default is "rachel" voice)
         """
-        self.api_key = api_key or os.getenv("ELEVENLABS_API_KEY")
+        self.api_key = api_key
         if not self.api_key:
             raise ValueError(
                 "API key must be provided or set in ELEVENLABS_API_KEY environment variable"
