@@ -134,12 +134,3 @@ class RecipeInputProcessor(InputProcessor):
                 )
 
         return response
-
-
-if __name__ == "__main__":
-    recipe_steps = [
-        "Add eggs and milk.",
-        "Stir well.",
-        "Pour into the dish and bake for 25 minutes.",
-    ]
-    input_processor = RecipeInputProcessor(recipe_steps, openai_api_key=...)
