@@ -13,6 +13,9 @@ dependencies = [
     "openai-whisper",
     "sounddevice",
     "soundfile",
+    "python-dotenv",
+    "requests",
+    "types-requests",
     # dev tools
     "mypy",
     "better_exceptions",

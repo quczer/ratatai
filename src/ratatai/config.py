@@ -8,6 +8,7 @@ class Files:
 
     DEFAULT_RECIPE = RECIPES_DIR / "example.txt"
     MOCK_RESPONSE_PATH = FILES_DIR / "id_eat_you_bby.wav"
+    DOTENV_FILE = REPO_DIR / ".env"
 
 
 class Whisper:

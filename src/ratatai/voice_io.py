@@ -50,5 +50,4 @@ class VoiceIOImpl(VoiceIO):
     def speak(self, speech: Speech) -> None:
         data, _ = soundfile.read(io.BytesIO(speech), dtype="float32")
         # Wait until playback is finished
-        sounddevice.play(data)
-        sounddevice.wait()
+        sounddevice.play(data, blocking=True)
