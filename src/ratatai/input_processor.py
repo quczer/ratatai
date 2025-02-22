@@ -75,7 +75,7 @@ class RecipeInputProcessor(InputProcessor):
         {self.recipe_steps}
 
         Completed Steps:
-        {sorted(list(self.completed_steps))}
+        {sorted(self.completed_steps)}
         """
         self.memory.chat_memory.add_message(SystemMessage(content=system_prompt))
 
