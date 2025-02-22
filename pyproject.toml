@@ -11,6 +11,8 @@ dependencies = [
     "SpeechRecognition",
     "pyaudio",
     "openai-whisper",
+    "sounddevice",
+    "soundfile",
     # dev tools
     "mypy",
     "better_exceptions",
@@ -117,7 +119,7 @@ extend-safe-fixes = ["UP038"]
 [tool.ruff.lint.per-file-ignores]
 "**/__init__.py" = ["F401"]
 "**/*.pyi" = ["PYI026"]
-"tests/*" = ["PLR0913"]
+"tests/*" = ["PLR0913", "T201"]
 
 
 [tool.ruff.lint.isort]
