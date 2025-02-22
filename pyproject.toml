@@ -1,0 +1,101 @@
+[tool.mypy]
+check_untyped_defs = true
+disallow_any_generics = true
+disallow_any_unimported = true
+disallow_incomplete_defs = false
+disallow_untyped_calls = false
+disallow_untyped_defs = true
+namespace_packages = false
+no_implicit_optional = true
+python_executable = "python"
+python_version = "3.11"
+strict_equality = true
+warn_redundant_casts = true
+warn_return_any = false
+warn_unused_configs = true
+warn_unused_ignores = true
+warn_unreachable = false
+
+
+# Ignore missing imports for third party libraries where stubs are not available.
+# [[tool.mypy.overrides]]
+# module = [
+# ]
+# ignore_missing_imports = true
+
+# See the following link for more information on how to use Ruff:
+# https://docs.astral.sh/ruff/linter/#error-suppression
+# https://docs.astral.sh/ruff/rules/
+[tool.ruff]
+include = ["*.py", "*.pyi"]
+line-length = 88
+indent-width = 4
+show-fixes = true
+
+[tool.ruff.format]
+docstring-code-format = true
+docstring-code-line-length = "dynamic"
+indent-style = "space"
+line-ending = "lf"
+quote-style = "double"
+skip-magic-trailing-comma = true
+
+[tool.ruff.lint]
+select = [
+    "F",
+    "E",
+    "W",
+    "I",
+    "N",
+    "UP",
+    "B",
+    "A",
+    "Q",
+    "PL",
+    "RUF",
+    "ASYNC",
+    "BLE",
+    "C4",
+    "T10",
+    "T20",
+    "ICN",
+    "PIE",
+    "PYI",
+    "SIM",
+    "PTH",
+    "PD",
+    "TCH",
+    "DTZ",
+    "ARG",
+]
+ignore = [
+    "N80",     # variable should be lowercase
+    "UP015",   # unnecessary open mode parameters - open(..., 'r')
+    "UP035",   # import from `collections.abc` instead: `Iterable`, ...
+    "UP037",   # remove quotes from type annotation
+    "SIM105",  # use `contextlib.suppress(ImportError)` instead of `try`-`except`-`pass`
+    "SIM108",  # use ternary operator instead of `if`-`else`
+    "SIM118",  # use `key in dict` instead of `key in dict.keys()`
+    "SIM300",  # yoda conditions, e.g. `0 <= x` instead of `x >= 0`
+    "PTH123",  # `open()` should be replaced by `Path.open()`
+    "PLR0913", # too many arguments in function definition ... > 5
+    "PLR1722", # use `sys.exit()` instead of `exit`
+    "PLR2004", # magic-value-comparison, e.g `price <= 100` - why 100?
+    "RUF012",  # mutable class attributes should be annotated with `typing.ClassVar`"
+    "A005",    # Module `...` shadows a Python standard-library module
+]
+fixable = ["ALL"]
+extend-unsafe-fixes = ["B905", "SIM300", "PLR5501"]
+extend-safe-fixes = ["UP038"]
+
+[tool.ruff.lint.per-file-ignores]
+"**/__init__.py" = ["F401"]
+"**/*.pyi" = ["PYI026"]
+"tests/*" = ["PLR0913"]
+
+
+[tool.ruff.lint.isort]
+split-on-trailing-comma = false
+
+[tool.ruff.lint.pycodestyle]
+max-line-length = 120 # Extended line length for docstrings

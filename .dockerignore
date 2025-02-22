@@ -1,0 +1,12 @@
+# We use this file to ignore all files but those that are needed to only build the image.
+# Note: this is different from only having files that are needed to build the code
+# -- we only keep e.g. `requirements.txt` without code to install the dependencies.
+# For details about `.dockerignore`, see https://shisho.dev/blog/posts/how-to-use-dockerignore/
+
+# The star below ignores all files, with the exception of those below it prefixed with `!`.
+# (this comment exists to highlight it, as a single star is not very visible)
+*
+
+# `backend`
+!/backend/src/ratatai/__init__.py
+!/backend/pyproject.toml

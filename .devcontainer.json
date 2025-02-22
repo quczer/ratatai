@@ -1,0 +1,77 @@
+{
+    "name": "ratatai",
+    "build": {
+        "context": "${localWorkspaceFolder}",
+        "dockerfile": "Dockerfile"
+    },
+    "containerEnv": {
+        "DISPLAY": "unix${localEnv:DISPLAY}",
+        "XAUTHORITY": "${localEnv:XAUTHORITY:/dev/null}",
+        "TZ": "Europe/Warsaw"
+    },
+    "workspaceFolder": "/mnt/${localWorkspaceFolderBasename}",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/mnt/${localWorkspaceFolderBasename},type=bind",
+    "mounts": [
+        "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind",
+        "source=${localEnv:XAUTHORITY:/dev/null},target=/vscode/.Xauthority,type=bind,consistency=cached,readonly"
+    ],
+    "privileged": true,
+    "runArgs": [
+        "--network=host",
+        "--ipc=host"
+    ],
+    "initializeCommand": [],
+    "postCreateCommand": "",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "charliermarsh.ruff",
+                "eamodio.gitlens",
+                "foxundermoon.shell-format",
+                "mechatroner.rainbow-csv",
+                "ms-azuretools.vscode-docker",
+                "ms-vscode.cpptools",
+                "ms-vscode.cpptools-extension-pack",
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "ms-toolsai.jupyter",
+                "redhat.vscode-yaml",
+                "redhat.vscode-xml",
+                "signageos.signageos-vscode-sops-beta",
+                "tamasfe.even-better-toml",
+                "zxh404.vscode-proto3"
+            ],
+            "settings": {
+                "workbench.colorCustomizations": {
+                    "statusBarItem.remoteBackground": "#b35f10",
+                    "statusBarItem.remoteForeground": "#ffffff"
+                },
+                "[python]": {
+                    "editor.defaultFormatter": "charliermarsh.ruff"
+                },
+                "[xml]": {
+                    "editor.defaultFormatter": "redhat.vscode-xml"
+                },
+                "[shellscript]": {
+                    "editor.defaultFormatter": "foxundermoon.shell-format"
+                },
+                "shellformat.flag": "--indent 4 --case-indent --space-redirects",
+                "[json]": {
+                    "editor.defaultFormatter": "vscode.json-language-features"
+                },
+                "[html]": {
+                    "editor.defaultFormatter": "vscode.html-language-features"
+                },
+                "[toml]": {
+                    "editor.defaultFormatter": "tamasfe.even-better-toml"
+                },
+                "[dockerfile]": {
+                    "editor.defaultFormatter": "ms-azuretools.vscode-docker"
+                },
+                "[yaml]": {
+                    "editor.defaultFormatter": "redhat.vscode-yaml"
+                }
+            }
+        }
+    }
+}
