@@ -1,0 +1,54 @@
+# See https://pre-commit.com for more information, in particular https://pre-commit.com/#pre-commit-run for manual trigger
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-ast
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: mixed-line-ending
+        name: check line ending character (LF)
+        args: ["--fix=lf"]
+        types_or: [python, c, c++, shell]
+      - id: check-added-large-files
+        args: ["--maxkb=100"]
+      - id: check-executables-have-shebangs
+      - id: no-commit-to-branch
+        name: disallow committing to the main branch
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.9.6
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+  - repo: local
+    hooks:
+      - id: no-spaces-in-filenames
+        name: filenames must not contain spaces
+        entry: "filenames with spaces found:"
+        language: fail
+        files: " "
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.4.1
+    hooks:
+      - id: codespell
+        args: [
+            "--check-filenames",
+            "--builtin",
+            "clear,rare,code,names",
+            "--ignore-words-list",
+            "",
+          ]
+        exclude: '.*\.ipynb$'
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.10.0.1
+    hooks:
+      - id: shellcheck
+        args: ["--severity=error"]
+  - repo: https://github.com/pecigonzalo/pre-commit-shfmt
+    rev: v2.2.0
+    hooks:
+      - id: shell-fmt-go
+        args: ["--write", "--diff", "--indent", "4", "--case-indent", "--space-redirects"]
+        exclude: "^raspberry/files/(eagle-decrypt-.*.sh|home-firstrun.sh|tunnel.sh)$"
