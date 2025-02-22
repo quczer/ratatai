@@ -6,7 +6,7 @@ import soundfile
 import speech_recognition
 
 from ratatai import logger
-from ratatai.typing import Speech
+from ratatai.types import Speech
 
 
 class VoiceIO(ABC):
