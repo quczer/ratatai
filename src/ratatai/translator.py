@@ -34,10 +34,17 @@ class ElevenLabsTTS(TextToSpeech):
     """Implementation of text-to-speech using ElevenLabs API"""
 
     _TTS_URL_FMT = "https://api.elevenlabs.io/v1/text-to-speech/{voice_id}/stream"
-
-    def __init__(self, api_key: str, voice_id: str = "21m00Tcm4TlvDq8ikWAM"):
+    
+    def __init__(
+        self, 
+        api_key: str, 
+        voice_id: str = "Ze8EnVlLm8458alzEofB",
+        cache_size: int = 100
+    ):
         self._api_key = api_key
         self._voice_id = voice_id
+        self._cache = {}
+        self._cache_size = cache_size
 
     def __call__(self, text: str) -> Speech:
         """
@@ -45,6 +52,10 @@ class ElevenLabsTTS(TextToSpeech):
         ------
             requests.exceptions.RequestException: If API call fails
         """
+        # Check cache first
+        if text in self._cache:
+            return self._cache[text]
+
         url = ElevenLabsTTS._TTS_URL_FMT.format(voice_id=self._voice_id)
         headers = {
             "Accept": "audio/mpeg",
@@ -54,13 +65,32 @@ class ElevenLabsTTS(TextToSpeech):
         payload = {
             "text": text,
             "model_id": "eleven_monolingual_v1",
-            "voice_settings": {"stability": 0.5, "similarity_boost": 0.75},
+            "voice_settings": {
+                "stability": 0.5,
+                "similarity_boost": 0.75,
+                "optimize_streaming_latency": 4  # Add streaming optimization
+            },
         }
 
-        response = requests.post(url, json=payload, headers=headers)
+        # Use stream=True for streaming response
+        response = requests.post(url, json=payload, headers=headers, stream=True)
         response.raise_for_status()
 
-        return Speech(response.content)
+        # Stream and concatenate chunks
+        chunks = bytearray()
+        for chunk in response.iter_content(chunk_size=1024):
+            if chunk:
+                chunks.extend(chunk)
+
+        speech = Speech(bytes(chunks))
+        
+        # Cache the result
+        if len(self._cache) >= self._cache_size:
+            # Remove oldest item if cache is full
+            self._cache.pop(next(iter(self._cache)))
+        self._cache[text] = speech
+
+        return speech
 
 
 class WhisperSpeechToText(SpeechToText):
