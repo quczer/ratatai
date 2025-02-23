@@ -8,7 +8,7 @@ from ratatai.voice_io import VoiceIOImpl
 
 def create_cooking_assistant(recipe_steps: list[str]) -> CookingAssistant:
     return CookingAssistant(
-        voice_io=VoiceIOImpl(pause_thold=0.8),
+        voice_io=VoiceIOImpl(pause_thold=1),
         input_processor=OpenAiInputProcessor(
             recipe_steps=recipe_steps, openai_api_key=get_api_key(key="openai")
         ),

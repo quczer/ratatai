@@ -15,7 +15,7 @@ from ratatai.create import create_cooking_assistant
 def run(recipe_path: Path) -> None:
     logger.info("Reading recipe...")
     with open(recipe_path) as file:
-        recipe_steps = file.readlines()
+        recipe_steps = file.read()
 
     logger.debug("Creating cooking assistant...")
     assistant = create_cooking_assistant(recipe_steps=recipe_steps)
